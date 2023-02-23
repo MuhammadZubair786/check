@@ -1,0 +1,122 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <fb:login-button 
+    scope="public_profile,email"
+    onlogin="checkLoginState();">
+  </fb:login-button>
+
+
+
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '449870717286597',
+                cookie: true,
+                xfbml: true,
+                version: 'v15.0'
+            });
+
+            //   FB.AppEvents.logPageView(); 
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function statusChangeCallback(response){
+            if(response.status === "connected"){
+                console.log("Logged in and autheticated")
+            }
+            else{
+                console.log("not auth")
+            }
+        }
+
+        function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+}
+    </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <button id="facebook-login-btn">Sign in with Facebook</button>
+    
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyA2rPzyKAwGPhtkSiCOewaIP79axf4fC38",
+  authDomain: "enstro-68247.firebaseapp.com",
+  databaseURL: "https://enstro-68247-default-rtdb.firebaseio.com",
+  projectId: "enstro-68247",
+  storageBucket: "enstro-68247.appspot.com",
+  messagingSenderId: "904641560773",
+  appId: "1:904641560773:web:f0d6dceb3bba315e5630ac",
+  measurementId: "G-KYQ2X9XP8P"
+  // Add your Firebase project configuration here
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const facebookLoginButton = document.querySelector('#facebook-login-btn');
+
+facebookLoginButton.addEventListener('click', () => {
+  // Use the Firebase SDK to create a new Facebook authentication provider object
+  const provider = new firebase.auth.FacebookAuthProvider();
+
+  // Use the Firebase SDK to sign in to Facebook and authenticate the user
+  firebase.auth().signInWithPopup(provider)
+    .then((result) => {
+      // Handle successful authentication
+      const user = result.user;
+      console.log(user);
+    })
+    .catch((error) => {
+      // Handle errors that occurred during authentication
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    });
+});
+// That's it! With these steps, you should now have Facebook login working in your Firebase-powered JavaScript app.
+
+
+
+
+
+    </script>
+</body>
+</html>
