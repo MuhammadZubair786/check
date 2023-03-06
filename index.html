@@ -91,35 +91,36 @@
 
 firebase.initializeApp(firebaseConfig);
 
-const facebookLoginButton = document.querySelector('#facebook-login-btn');
+firebase.initializeApp(firebaseConfig);
 
-facebookLoginButton.addEventListener('click', () => {
-  // Use the Firebase SDK to create a new Facebook authentication provider object
-  const provider = new firebase.auth.FacebookAuthProvider();
-
-  // Use the Firebase SDK to sign in to Facebook and authenticate the user
-  firebase.auth().signInWithPopup(provider)
-    .then((result) => {
-      // Handle successful authentication
-      const user = result.user;
-      console.log(user);
-    })
-    .catch((error) => {
-    if (error.code === "auth/popup-closed-by-user") {
-      // Handle popup closed by user
-      console.log("Sign-in popup was closed by the user");
-    } else {
-      // Handle other errors
-      console.error(error);
-    }
+// Set up Facebook login button
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : 'YOUR_APP_ID',
+    cookie     : true,
+    xfbml      : true,
+    version    : 'v9.0'
   });
-});
-// That's it! With these steps, you should now have Facebook login working in your Firebase-powered JavaScript app.
+    
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+};
 
+function statusChangeCallback(response) {
+  if (response.status === 'connected') {
+    var credential = firebase.auth.FacebookAuthProvider.credential(
+      response.authResponse.accessToken);
+    firebase.auth().signInWithCredential(credential).catch(function(error) {
+      console.error(error);
+    });
+  }
+}
 
-
-
-
-    </script>
+function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+}
 </body>
 </html>
