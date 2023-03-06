@@ -46,8 +46,8 @@
       firebase.auth().signInWithPopup(provider)
         .then((result) => {
           // Handle successful authentication
-          const user = result.user;
-          console.log(user);
+          var accessToken = result.credential.accessToken;
+    console.log("Facebook access token: " + accessToken);
         })
         .catch((error) => {
           if (error.code === "auth/popup-closed-by-user") {
